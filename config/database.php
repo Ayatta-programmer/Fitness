@@ -4,11 +4,22 @@
 // ============================================
 
 // PostgreSQL connection settings
-define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
-define('DB_PORT', getenv('DB_PORT') ?: '5432');
-define('DB_NAME', getenv('DB_NAME') ?: 'fitness_gym');
-define('DB_USER', getenv('DB_USER') ?: 'postgres');
-define('DB_PASS', getenv('DB_PASS') ?: 'postgres');
+// Support Render's DATABASE_URL or individual env vars
+$databaseUrl = getenv('DATABASE_URL');
+if ($databaseUrl) {
+    $dbParts = parse_url($databaseUrl);
+    define('DB_HOST', $dbParts['host']);
+    define('DB_PORT', $dbParts['port'] ?? '5432');
+    define('DB_NAME', ltrim($dbParts['path'], '/'));
+    define('DB_USER', $dbParts['user']);
+    define('DB_PASS', $dbParts['pass']);
+} else {
+    define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
+    define('DB_PORT', getenv('DB_PORT') ?: '5432');
+    define('DB_NAME', getenv('DB_NAME') ?: 'fitness_gym');
+    define('DB_USER', getenv('DB_USER') ?: 'postgres');
+    define('DB_PASS', getenv('DB_PASS') ?: 'postgres');
+}
 
 // Application settings
 define('APP_NAME', 'FitPulse');
@@ -22,8 +33,9 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Error reporting (disabled in production)
 if (getenv('APP_ENV') === 'production') {
-    error_reporting(0);
+    error_reporting(E_ALL);
     ini_set('display_errors', 0);
+    ini_set('log_errors', 1);
 } else {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -38,6 +50,18 @@ try {
         PDO::ATTR_EMULATE_PREPARES   => false,
     ];
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+
+    // Auto-initialize database tables if they don't exist (for Render deployment)
+    $tableCheck = $pdo->query("SELECT to_regclass('public.users')");
+    $exists = $tableCheck->fetchColumn();
+    if (!$exists) {
+        // Run the schema setup automatically
+        $schemaFile = __DIR__ . '/fitpulse_gym_pg.sql';
+        if (file_exists($schemaFile)) {
+            $sql = file_get_contents($schemaFile);
+            $pdo->exec($sql);
+        }
+    }
 } catch (PDOException $e) {
     die("Database Connection Failed: " . $e->getMessage());
 }

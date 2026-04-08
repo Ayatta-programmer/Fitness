@@ -13,7 +13,6 @@ services:
     name: fitpulse
     runtime: docker
     plan: free
-    dockerCommand: apache2-foreground
     envVars:
       - key: DB_HOST
         fromDatabase:
