@@ -79,7 +79,6 @@
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-bg-strong: rgba(255, 255, 255, 0.1);
-  --sidebar-width: clamp(220px, 18vw, 260px);
 }
 
 /* ---------- Reset & Base ---------- */
@@ -929,7 +928,7 @@ select.form-control {
 }
 
 .sidebar {
-  width: var(--sidebar-width);
+  width: 260px;
   background: var(--dark-card);
   border-right: 1px solid var(--glass-border);
   padding: var(--space-lg) 0;
@@ -1056,10 +1055,8 @@ select.form-control {
 /* Main Content */
 .main-content {
   flex: 1;
-  margin-left: var(--sidebar-width);
-  width: calc(100vw - var(--sidebar-width));
-  max-width: calc(100vw - var(--sidebar-width));
-  padding: var(--space-xl) clamp(1rem, 2.5vw, 2.5rem);
+  margin-left: 260px;
+  padding: var(--space-xl) var(--space-2xl);
   min-height: 100vh;
 }
 
@@ -1100,7 +1097,7 @@ select.form-control {
 /* ---------- DASHBOARD CARDS ---------- */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-lg);
   margin-bottom: var(--space-2xl);
 }
@@ -1383,7 +1380,7 @@ select.form-control {
 /* ---------- CHARTS CONTAINER ---------- */
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-xl);
   margin-bottom: var(--space-2xl);
 }
@@ -1461,10 +1458,6 @@ select.form-control {
 
 /* === LARGE TABLETS / SMALL DESKTOPS (≤1200px) === */
 @media (max-width: 1200px) {
-  :root {
-    --sidebar-width: 232px;
-  }
-
   .stats-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
@@ -1478,10 +1471,6 @@ select.form-control {
 
 /* === TABLETS (≤992px) === */
 @media (max-width: 992px) {
-  :root {
-    --sidebar-width: 260px;
-  }
-
   /* Landing page grids */
   .features-grid {
     grid-template-columns: repeat(2, 1fr);
