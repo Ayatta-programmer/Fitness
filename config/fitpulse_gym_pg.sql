@@ -88,6 +88,27 @@ CREATE TABLE IF NOT EXISTS reports (
     FOREIGN KEY (generated_by) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- M-Pesa Transactions table
+CREATE TABLE IF NOT EXISTS mpesa_transactions (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    invoice_id INT,
+    checkout_request_id VARCHAR(100) UNIQUE,
+    merchant_request_id VARCHAR(100),
+    phone VARCHAR(20) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    mpesa_receipt VARCHAR(50),
+    result_code INT,
+    result_desc TEXT,
+    transaction_type VARCHAR(30) DEFAULT 'invoice',
+    plan_name VARCHAR(50),
+    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending','completed','failed','cancelled')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE SET NULL
+);
+
 -- Insert default admin account
 -- Email: admin@fitpulse.com | Password: Admin@123
 INSERT INTO users (full_name, email, phone, password, role, security_question, security_answer, status, membership_plan)

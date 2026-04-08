@@ -222,12 +222,9 @@ $subscriptionOptions = [
         <p style="margin-top:1rem;color:var(--gray-400)">
           <span class="loading-spinner"></span><br><br>
           A payment prompt has been sent to <strong id="mpesa-sent-phone"></strong><br>
-          <small>Please enter your M-Pesa PIN on your phone</small>
+          <small>Enter your M-Pesa PIN on your phone. We'll detect it automatically.</small>
         </p>
-        <button class="btn mpesa-btn" style="width:100%;padding:0.9rem;font-size:1rem;margin-top:1rem" onclick="confirmMpesa()">
-          <i class="fas fa-check-circle"></i> I've Entered My PIN
-        </button>
-        <button class="btn btn-ghost" style="width:100%;margin-top:0.5rem" onclick="closeMpesa()">Cancel</button>
+        <button class="btn btn-ghost" style="width:100%;margin-top:1rem" onclick="closeMpesa()">Cancel Payment</button>
       </div>
 
       <!-- Step 3: Processing -->
@@ -281,6 +278,9 @@ $subscriptionOptions = [
 let currentInvoiceId = null;
 let selectedPlan = null;
 let planAmount = 0;
+let planName = '';
+let currentCheckoutRequestId = null;
+let pollingInterval = null;
 
 function startMpesaPayment(invoiceId, amount, invoiceNum, desc) {
   currentInvoiceId = invoiceId;
@@ -297,15 +297,12 @@ function selectPlan(element, key, price, name) {
   planAmount = price;
   planName = name;
   
-  // Update UI selection
   document.querySelectorAll('.plan-option').forEach(el => el.classList.remove('selected'));
   element.classList.add('selected');
   
-  // Update summary
   document.getElementById('summary-name').textContent = name;
   document.getElementById('summary-price').textContent = 'KSh ' + parseFloat(price).toLocaleString(undefined, {minimumFractionDigits: 2});
   
-  // Enable button
   let btn = document.getElementById('btn-buy-plan');
   btn.disabled = false;
 }
@@ -341,21 +338,21 @@ function showStep(n) {
 }
 
 function closeMpesa() {
+  stopPolling();
   closeModal('mpesaModal');
   setTimeout(() => showStep(1), 300);
 }
 
 function resetMpesa() {
+  stopPolling();
   showStep(1);
 }
-
-let planName = '';
 
 function initiateMpesa() {
   let phone = document.getElementById('mpesa-phone').value.trim();
   if (!phone) { alert('Please enter your phone number'); return; }
 
-  // Format: add 254 prefix if they entered 07...
+  // Format phone number
   if (phone.startsWith('07') || phone.startsWith('01')) {
     phone = '254' + phone.substring(1);
   } else if (phone.startsWith('7') || phone.startsWith('1')) {
@@ -376,17 +373,20 @@ function initiateMpesa() {
   
   formData.append('phone', phone);
 
-  // Show STK Push step
+  // Show STK Push step immediately
   document.getElementById('mpesa-sent-phone').textContent = phone.replace(/(\d{3})(\d{3})(\d{3})(\d{3})/, '$1 $2 $3 $4');
   showStep(2);
-
-  // Animate PIN dots
   animatePinDots();
 
+  // Send STK Push request
   fetch('../api/mpesa.php', { method: 'POST', body: formData })
     .then(r => r.json())
     .then(data => {
-      if (!data.success) {
+      if (data.success) {
+        // Store checkout ID and start polling for payment confirmation
+        currentCheckoutRequestId = data.checkout_request_id;
+        startPolling();
+      } else {
         document.getElementById('mpesa-error-msg').textContent = data.message;
         showStep('error');
       }
@@ -411,35 +411,57 @@ function animatePinDots() {
   }, 800);
 }
 
-function confirmMpesa() {
-  showStep(3);
+// ============================================
+// Payment Status Polling
+// ============================================
+function startPolling() {
+  stopPolling();
+  let attempts = 0;
+  const maxAttempts = 40; // 40 * 3s = 2 minutes max
 
-  // Simulate processing delay
-  setTimeout(() => {
-    const formData = new FormData();
-    formData.append('action', 'confirm');
+  pollingInterval = setInterval(() => {
+    attempts++;
+    
+    if (attempts > maxAttempts) {
+      stopPolling();
+      document.getElementById('mpesa-error-msg').textContent = 'Payment confirmation timed out. If you completed the payment, it will reflect shortly.';
+      showStep('error');
+      return;
+    }
 
-    fetch('../api/mpesa.php', { method: 'POST', body: formData })
+    fetch('../api/mpesa_status.php?checkout_request_id=' + encodeURIComponent(currentCheckoutRequestId))
       .then(r => r.json())
       .then(data => {
-        if (data.success) {
-          document.getElementById('r-receipt').textContent = data.receipt;
-          document.getElementById('r-invoice').textContent = data.invoice_number;
+        if (!data.success) return;
+
+        if (data.status === 'completed') {
+          stopPolling();
+          // Show success with receipt
+          document.getElementById('r-receipt').textContent = data.receipt || 'N/A';
+          document.getElementById('r-invoice').textContent = data.invoice_number || 'N/A';
           document.getElementById('r-amount').textContent = 'KSh ' + parseFloat(data.amount).toLocaleString(undefined, {minimumFractionDigits: 2});
-          document.getElementById('r-phone').textContent = data.phone;
-          document.getElementById('r-date').textContent = data.date;
-          document.getElementById('r-ref').textContent = data.txn_ref;
+          document.getElementById('r-phone').textContent = data.phone || '';
+          document.getElementById('r-date').textContent = data.date || '';
+          document.getElementById('r-ref').textContent = currentCheckoutRequestId;
           showStep(4);
-        } else {
+        } else if (data.status === 'failed' || data.status === 'cancelled') {
+          stopPolling();
           document.getElementById('mpesa-error-msg').textContent = data.message;
           showStep('error');
         }
+        // If still 'pending', continue polling
       })
       .catch(() => {
-        document.getElementById('mpesa-error-msg').textContent = 'Network error. Please try again.';
-        showStep('error');
+        // Network error during polling — continue trying
       });
-  }, 2500);
+  }, 3000);
+}
+
+function stopPolling() {
+  if (pollingInterval) {
+    clearInterval(pollingInterval);
+    pollingInterval = null;
+  }
 }
 </script>
 </body>

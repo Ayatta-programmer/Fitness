@@ -6,9 +6,9 @@ FROM php:8.2-apache
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Install PostgreSQL PDO driver
-RUN apt-get update && apt-get install -y libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql pgsql \
+# Install PostgreSQL PDO driver and cURL (needed for Daraja API)
+RUN apt-get update && apt-get install -y libpq-dev libcurl4-openssl-dev \
+    && docker-php-ext-install pdo pdo_pgsql pgsql curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Allow .htaccess overrides

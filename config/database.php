@@ -26,6 +26,17 @@ define('APP_NAME', 'FitPulse');
 define('APP_URL', getenv('APP_URL') ?: 'http://localhost:8000');
 define('ADMIN_INVITE_CODE', 'FITPULSE2026');
 
+// M-Pesa Daraja API Configuration
+define('MPESA_ENV', getenv('MPESA_ENV') ?: 'sandbox');
+define('MPESA_CONSUMER_KEY', getenv('MPESA_CONSUMER_KEY') ?: '');
+define('MPESA_CONSUMER_SECRET', getenv('MPESA_CONSUMER_SECRET') ?: '');
+define('MPESA_SHORTCODE', getenv('MPESA_SHORTCODE') ?: '174379');
+define('MPESA_PASSKEY', getenv('MPESA_PASSKEY') ?: 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919');
+define('MPESA_CALLBACK_URL', getenv('MPESA_CALLBACK_URL') ?: APP_URL . '/api/mpesa_callback.php');
+define('MPESA_BASE_URL', MPESA_ENV === 'production'
+    ? 'https://api.safaricom.co.ke'
+    : 'https://sandbox.safaricom.co.ke');
+
 // Session configuration
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
