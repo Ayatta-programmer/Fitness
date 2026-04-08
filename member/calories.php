@@ -34,7 +34,7 @@ foreach ($records as $r) { $totalCal += $r['calories_burnt']; $totalMinutes += $
       </div>
     </div>
 
-    <div class="stats-grid cols-3">
+    <div class="stats-grid" style="grid-template-columns: repeat(3,1fr)">
       <div class="stat-card">
         <div class="stat-header">
           <div><div class="stat-value"><?= number_format($totalCal) ?></div><div class="stat-label">Total Calories Burnt</div></div>
@@ -62,14 +62,14 @@ foreach ($records as $r) { $totalCal += $r['calories_burnt']; $totalMinutes += $
           <thead><tr><th>Date</th><th>Activity</th><th>Duration</th><th>Calories</th><th>Intensity</th></tr></thead>
           <tbody>
             <?php if (empty($records)): ?>
-              <tr><td colspan="5" class="text-center empty-value" style="padding:2rem">No workout records yet</td></tr>
+              <tr><td colspan="5" class="text-center" style="padding:2rem;color:var(--gray-500)">No workout records yet</td></tr>
             <?php else: ?>
               <?php foreach ($records as $r): ?>
                 <tr>
                   <td><?= date('M j, Y', strtotime($r['workout_date'])) ?></td>
                   <td><?= htmlspecialchars($r['activity']) ?></td>
                   <td><?= $r['duration_minutes'] ?> min</td>
-                  <td><strong class="value-strong"><?= number_format($r['calories_burnt']) ?> kcal</strong></td>
+                  <td><strong style="color:var(--primary)"><?= number_format($r['calories_burnt']) ?> kcal</strong></td>
                   <td><span class="badge badge-<?= $r['intensity']==='high'?'danger':($r['intensity']==='medium'?'warning':'info') ?>"><?= ucfirst($r['intensity']) ?></span></td>
                 </tr>
               <?php endforeach; ?>

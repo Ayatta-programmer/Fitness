@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['step'])) {
 <body>
 
 <div class="auth-page">
-  <div class="auth-card auth-card-medium">
+  <div class="auth-card" style="max-width: 500px">
     <div class="auth-header">
       <a href="../index.html" class="auth-logo">FP</a>
       <h2>Reset Password</h2>
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['step'])) {
 
         <div class="form-group">
           <label>Security Question</label>
-          <p class="security-question-box">
+          <p style="color: var(--white); font-size: 0.95rem; padding: 0.75rem; background: var(--gray-900); border-radius: var(--radius-md); border: 1px solid var(--gray-700);">
             <?= htmlspecialchars($securityQuestion) ?>
           </p>
         </div>

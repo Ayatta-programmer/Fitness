@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../auth/auth_check.php';
 checkAuth(['admin']);
 
@@ -99,7 +99,7 @@ $stillIn = $pdo->query("SELECT COUNT(*) FROM attendance WHERE DATE(check_in) = C
     <?php endif; ?>
 
     <!-- Stats -->
-    <div class="stats-grid cols-2">
+    <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr)">
       <div class="stat-card">
         <div class="stat-header">
           <div>
@@ -123,12 +123,12 @@ $stillIn = $pdo->query("SELECT COUNT(*) FROM attendance WHERE DATE(check_in) = C
     <!-- Filter -->
     <div class="card mb-2">
       <div class="card-body">
-        <form method="GET" class="filter-form">
-          <div class="form-group filter-field">
+        <form method="GET" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
+          <div class="form-group" style="margin:0">
             <label>Date</label>
             <input type="date" name="date" class="form-control" value="<?= htmlspecialchars($filterDate) ?>">
           </div>
-          <div class="form-group filter-field grow">
+          <div class="form-group" style="margin:0;flex:1;min-width:200px">
             <label>Member Name</label>
             <input type="text" name="member" class="form-control" placeholder="Search member..." value="<?= htmlspecialchars($filterMember) ?>">
           </div>
@@ -141,7 +141,7 @@ $stillIn = $pdo->query("SELECT COUNT(*) FROM attendance WHERE DATE(check_in) = C
     <!-- Attendance Table -->
     <div class="card">
       <div class="card-header">
-        <h3>Attendance Records  -  <?= date('M j, Y', strtotime($filterDate)) ?> (<?= count($records) ?>)</h3>
+        <h3>Attendance Records — <?= date('M j, Y', strtotime($filterDate)) ?> (<?= count($records) ?>)</h3>
       </div>
       <div class="card-body no-padding">
         <table class="data-table">
@@ -158,11 +158,11 @@ $stillIn = $pdo->query("SELECT COUNT(*) FROM attendance WHERE DATE(check_in) = C
           </thead>
           <tbody>
             <?php if (empty($records)): ?>
-              <tr><td colspan="7" class="text-center empty-value" style="padding:2rem">No attendance records for this date</td></tr>
+              <tr><td colspan="7" class="text-center" style="padding:2rem;color:var(--gray-500)">No attendance records for this date</td></tr>
             <?php else: ?>
               <?php foreach ($records as $r): ?>
                 <?php
-                  $duration = ' - ';
+                  $duration = '—';
                   if ($r['check_out']) {
                       $diff = strtotime($r['check_out']) - strtotime($r['check_in']);
                       $hours = floor($diff / 3600);
@@ -176,22 +176,22 @@ $stillIn = $pdo->query("SELECT COUNT(*) FROM attendance WHERE DATE(check_in) = C
                   <td><?= $r['check_out'] ? date('g:i A', strtotime($r['check_out'])) : '<span class="badge badge-warning">Still In</span>' ?></td>
                   <td><?= $duration ?></td>
                   <td><span class="badge badge-<?= $r['status']==='present'?'success':($r['status']==='late'?'warning':'danger') ?>"><?= ucfirst($r['status']) ?></span></td>
-                  <td><?= htmlspecialchars($r['notes'] ?: ' - ') ?></td>
+                  <td><?= htmlspecialchars($r['notes'] ?: '—') ?></td>
                   <td>
                     <div class="d-flex gap-1">
                       <?php if (!$r['check_out']): ?>
-                        <form method="POST" class="table-actions">
+                        <form method="POST" style="display:inline">
                           <input type="hidden" name="action" value="checkout">
                           <input type="hidden" name="att_id" value="<?= $r['id'] ?>">
-                          <button type="submit" class="btn btn-icon success" title="Check Out">
+                          <button type="submit" class="btn btn-icon" style="color:var(--success)" title="Check Out">
                             <i class="fas fa-sign-out-alt"></i>
                           </button>
                         </form>
                       <?php endif; ?>
-                      <form method="POST" class="table-actions" onsubmit="return confirmDelete('Delete this record?')">
+                      <form method="POST" style="display:inline" onsubmit="return confirmDelete('Delete this record?')">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="att_id" value="<?= $r['id'] ?>">
-                        <button type="submit" class="btn btn-icon danger" title="Delete">
+                        <button type="submit" class="btn btn-icon" style="color:var(--danger)" title="Delete">
                           <i class="fas fa-trash"></i>
                         </button>
                       </form>
@@ -242,4 +242,3 @@ $stillIn = $pdo->query("SELECT COUNT(*) FROM attendance WHERE DATE(check_in) = C
 <script src="../js/main.js"></script>
 </body>
 </html>
-

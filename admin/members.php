@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../auth/auth_check.php';
 checkAuth(['admin']);
 
@@ -118,12 +118,12 @@ $members = $stmt->fetchAll();
     <!-- Filters -->
     <div class="card mb-2">
       <div class="card-body">
-        <form method="GET" class="filter-form">
-          <div class="form-group filter-field grow">
+        <form method="GET" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
+          <div class="form-group" style="margin:0;flex:1;min-width:200px">
             <label>Search</label>
             <input type="text" name="search" class="form-control" placeholder="Search by name or email..." value="<?= htmlspecialchars($search) ?>">
           </div>
-          <div class="form-group filter-field">
+          <div class="form-group" style="margin:0">
             <label>Role</label>
             <select name="role" class="form-control">
               <option value="">All Roles</option>
@@ -132,7 +132,7 @@ $members = $stmt->fetchAll();
               <option value="admin" <?= $filterRole==='admin'?'selected':'' ?>>Admin</option>
             </select>
           </div>
-          <div class="form-group filter-field">
+          <div class="form-group" style="margin:0">
             <label>Status</label>
             <select name="status" class="form-control">
               <option value="">All Status</option>
@@ -168,7 +168,7 @@ $members = $stmt->fetchAll();
           </thead>
           <tbody>
             <?php if (empty($members)): ?>
-              <tr><td colspan="8" class="text-center empty-value" style="padding:2rem">No members found</td></tr>
+              <tr><td colspan="8" class="text-center" style="padding:2rem;color:var(--gray-500)">No members found</td></tr>
             <?php else: ?>
               <?php foreach ($members as $m): ?>
                 <?php
@@ -183,7 +183,7 @@ $members = $stmt->fetchAll();
                     </div>
                   </td>
                   <td><?= htmlspecialchars($m['email']) ?></td>
-                  <td><?= htmlspecialchars($m['phone'] ?: ' - ') ?></td>
+                  <td><?= htmlspecialchars($m['phone'] ?: '—') ?></td>
                   <td><span class="badge badge-info"><?= ucfirst($m['role']) ?></span></td>
                   <td><?= ucfirst($m['membership_plan'] ?: 'basic') ?></td>
                   <td><span class="badge badge-<?= $m['status']==='active'?'success':($m['status']==='inactive'?'warning':'danger') ?>"><?= ucfirst($m['status']) ?></span></td>
@@ -193,10 +193,10 @@ $members = $stmt->fetchAll();
                       <button class="btn btn-icon" onclick='editMember(<?= json_encode($m) ?>)' title="Edit">
                         <i class="fas fa-pen"></i>
                       </button>
-                      <form method="POST" class="table-actions" onsubmit="return confirmDelete('Delete this member?')">
+                      <form method="POST" style="display:inline" onsubmit="return confirmDelete('Delete this member?')">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="member_id" value="<?= $m['id'] ?>">
-                        <button type="submit" class="btn btn-icon danger" title="Delete">
+                        <button type="submit" class="btn btn-icon" style="color:var(--danger)" title="Delete">
                           <i class="fas fa-trash"></i>
                         </button>
                       </form>
@@ -344,4 +344,3 @@ function editMember(data) {
 </script>
 </body>
 </html>
-

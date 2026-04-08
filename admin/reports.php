@@ -88,8 +88,8 @@ $caloriesReport = $caloriesStmt->fetchAll();
     <!-- Report Type Tabs & Date Filter -->
     <div class="card mb-2">
       <div class="card-body">
-        <form method="GET" class="filter-form">
-          <div class="form-group filter-field">
+        <form method="GET" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
+          <div class="form-group" style="margin:0">
             <label>Report Type</label>
             <select name="type" class="form-control">
               <option value="membership" <?= $reportType==='membership'?'selected':'' ?>>Membership</option>
@@ -98,11 +98,11 @@ $caloriesReport = $caloriesStmt->fetchAll();
               <option value="calories" <?= $reportType==='calories'?'selected':'' ?>>Calories</option>
             </select>
           </div>
-          <div class="form-group filter-field">
+          <div class="form-group" style="margin:0">
             <label>From</label>
             <input type="date" name="from" class="form-control" value="<?= $dateFrom ?>">
           </div>
-          <div class="form-group filter-field">
+          <div class="form-group" style="margin:0">
             <label>To</label>
             <input type="date" name="to" class="form-control" value="<?= $dateTo ?>">
           </div>
@@ -190,7 +190,7 @@ $caloriesReport = $caloriesStmt->fetchAll();
           <thead><tr><th>Date</th><th>Check-ins</th></tr></thead>
           <tbody>
             <?php if (empty($attendanceReport)): ?>
-              <tr><td colspan="2" class="text-center empty-value" style="padding:2rem">No data for this period</td></tr>
+              <tr><td colspan="2" class="text-center" style="padding:2rem;color:var(--gray-500)">No data for this period</td></tr>
             <?php else: ?>
               <?php foreach ($attendanceReport as $r): ?>
                 <tr>
@@ -243,14 +243,14 @@ $caloriesReport = $caloriesStmt->fetchAll();
           <thead><tr><th>Month</th><th>Invoices</th><th>Revenue</th><th>Pending</th></tr></thead>
           <tbody>
             <?php if (empty($revenueReport)): ?>
-              <tr><td colspan="4" class="text-center empty-value" style="padding:2rem">No data for this period</td></tr>
+              <tr><td colspan="4" class="text-center" style="padding:2rem;color:var(--gray-500)">No data for this period</td></tr>
             <?php else: ?>
               <?php foreach ($revenueReport as $r): ?>
                 <tr>
                   <td><?= date('F Y', strtotime($r['month'] . '-01')) ?></td>
                   <td><?= $r['invoice_count'] ?></td>
-                  <td><strong class="status-text success"><?= formatCurrency($r['revenue']) ?></strong></td>
-                  <td><span class="status-text warning"><?= formatCurrency($r['pending']) ?></span></td>
+                  <td><strong style="color:var(--success)"><?= formatCurrency($r['revenue']) ?></strong></td>
+                  <td><span style="color:var(--warning)"><?= formatCurrency($r['pending']) ?></span></td>
                 </tr>
               <?php endforeach; ?>
             <?php endif; ?>
@@ -292,13 +292,13 @@ $caloriesReport = $caloriesStmt->fetchAll();
           <thead><tr><th>Activity</th><th>Sessions</th><th>Total Calories</th><th>Avg Duration</th></tr></thead>
           <tbody>
             <?php if (empty($caloriesReport)): ?>
-              <tr><td colspan="4" class="text-center empty-value" style="padding:2rem">No data for this period</td></tr>
+              <tr><td colspan="4" class="text-center" style="padding:2rem;color:var(--gray-500)">No data for this period</td></tr>
             <?php else: ?>
               <?php foreach ($caloriesReport as $r): ?>
                 <tr>
                   <td><?= htmlspecialchars($r['activity']) ?></td>
                   <td><?= $r['sessions'] ?></td>
-                  <td><strong class="value-strong"><?= number_format($r['total_calories']) ?> kcal</strong></td>
+                  <td><strong style="color:var(--primary)"><?= number_format($r['total_calories']) ?> kcal</strong></td>
                   <td><?= round($r['avg_duration']) ?> min</td>
                 </tr>
               <?php endforeach; ?>

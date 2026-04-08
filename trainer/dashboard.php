@@ -64,10 +64,10 @@ $recentCalories = $recentCal->fetchAll();
         <h1>Trainer Dashboard</h1>
         <p>Welcome, <?= htmlspecialchars($_SESSION['user_name']) ?>!</p>
       </div>
-      <div class="header-meta"><i class="fas fa-calendar"></i> <?= date('l, F j, Y') ?></div>
+      <span style="color:var(--gray-400);font-size:0.85rem"><i class="fas fa-calendar"></i> <?= date('l, F j, Y') ?></span>
     </div>
 
-    <div class="stats-grid cols-3">
+    <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr)">
       <div class="stat-card">
         <div class="stat-header">
           <div>
@@ -108,7 +108,7 @@ $recentCalories = $recentCal->fetchAll();
             <thead><tr><th>Member</th><th>Check In</th><th>Status</th></tr></thead>
             <tbody>
               <?php if (empty($recentAttendance)): ?>
-                <tr><td colspan="3" class="text-center empty-value" style="padding:2rem">No records yet</td></tr>
+                <tr><td colspan="3" class="text-center" style="padding:2rem;color:var(--gray-500)">No records yet</td></tr>
               <?php else: ?>
                 <?php foreach ($recentAttendance as $a): ?>
                   <tr>
@@ -133,13 +133,13 @@ $recentCalories = $recentCal->fetchAll();
             <thead><tr><th>Member</th><th>Activity</th><th>Calories</th></tr></thead>
             <tbody>
               <?php if (empty($recentCalories)): ?>
-                <tr><td colspan="3" class="text-center empty-value" style="padding:2rem">No records yet</td></tr>
+                <tr><td colspan="3" class="text-center" style="padding:2rem;color:var(--gray-500)">No records yet</td></tr>
               <?php else: ?>
                 <?php foreach ($recentCalories as $c): ?>
                   <tr>
                     <td><?= htmlspecialchars($c['full_name']) ?></td>
                     <td><?= htmlspecialchars($c['activity']) ?></td>
-                    <td><strong class="value-strong"><?= number_format($c['calories_burnt']) ?> kcal</strong></td>
+                    <td><strong style="color:var(--primary)"><?= number_format($c['calories_burnt']) ?> kcal</strong></td>
                   </tr>
                 <?php endforeach; ?>
               <?php endif; ?>

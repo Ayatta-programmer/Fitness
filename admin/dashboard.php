@@ -42,8 +42,10 @@ $recentAttendance = $pdo->query("
         <h1>Dashboard</h1>
         <p>Welcome back, <?= htmlspecialchars($_SESSION['user_name']) ?>! Here's an overview.</p>
       </div>
-      <div class="header-meta">
-        <i class="fas fa-calendar"></i> <?= date('l, F j, Y') ?>
+      <div>
+        <span style="color: var(--gray-400); font-size: 0.85rem">
+          <i class="fas fa-calendar"></i> <?= date('l, F j, Y') ?>
+        </span>
       </div>
     </div>
 
@@ -137,7 +139,7 @@ $recentAttendance = $pdo->query("
           </thead>
           <tbody>
             <?php if (empty($recentMembers)): ?>
-              <tr><td colspan="5" class="text-center empty-value" style="padding:2rem">No members yet</td></tr>
+              <tr><td colspan="5" class="text-center" style="padding:2rem;color:var(--gray-500)">No members yet</td></tr>
             <?php else: ?>
               <?php foreach ($recentMembers as $m): ?>
                 <?php
@@ -181,7 +183,7 @@ $recentAttendance = $pdo->query("
           </thead>
           <tbody>
             <?php if (empty($recentAttendance)): ?>
-              <tr><td colspan="4" class="text-center empty-value" style="padding:2rem">No attendance records yet</td></tr>
+              <tr><td colspan="4" class="text-center" style="padding:2rem;color:var(--gray-500)">No attendance records yet</td></tr>
             <?php else: ?>
               <?php foreach ($recentAttendance as $a): ?>
                 <tr>

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../auth/auth_check.php';
 checkAuth(['admin']);
 
@@ -95,7 +95,7 @@ $totalSessions = $pdo->query("SELECT COUNT(*) FROM calories WHERE workout_date =
     <?php endif; ?>
 
     <!-- Stats -->
-    <div class="stats-grid cols-2">
+    <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr)">
       <div class="stat-card">
         <div class="stat-header">
           <div>
@@ -119,12 +119,12 @@ $totalSessions = $pdo->query("SELECT COUNT(*) FROM calories WHERE workout_date =
     <!-- Filter -->
     <div class="card mb-2">
       <div class="card-body">
-        <form method="GET" class="filter-form">
-          <div class="form-group filter-field">
+        <form method="GET" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
+          <div class="form-group" style="margin:0">
             <label>Date</label>
             <input type="date" name="date" class="form-control" value="<?= htmlspecialchars($filterDate) ?>">
           </div>
-          <div class="form-group filter-field grow">
+          <div class="form-group" style="margin:0;flex:1;min-width:200px">
             <label>Member</label>
             <input type="text" name="member" class="form-control" placeholder="Search by name..." value="<?= htmlspecialchars($filterMember) ?>">
           </div>
@@ -154,21 +154,21 @@ $totalSessions = $pdo->query("SELECT COUNT(*) FROM calories WHERE workout_date =
           </thead>
           <tbody>
             <?php if (empty($records)): ?>
-              <tr><td colspan="7" class="text-center empty-value" style="padding:2rem">No calorie records found</td></tr>
+              <tr><td colspan="7" class="text-center" style="padding:2rem;color:var(--gray-500)">No calorie records found</td></tr>
             <?php else: ?>
               <?php foreach ($records as $r): ?>
                 <tr>
                   <td><?= htmlspecialchars($r['full_name']) ?></td>
                   <td><?= htmlspecialchars($r['activity']) ?></td>
                   <td><?= $r['duration_minutes'] ?> min</td>
-                  <td><strong class="value-strong"><?= number_format($r['calories_burnt']) ?> kcal</strong></td>
+                  <td><strong style="color:var(--primary)"><?= number_format($r['calories_burnt']) ?> kcal</strong></td>
                   <td><span class="badge badge-<?= $r['intensity']==='high'?'danger':($r['intensity']==='medium'?'warning':'info') ?>"><?= ucfirst($r['intensity']) ?></span></td>
                   <td><?= date('M j, Y', strtotime($r['workout_date'])) ?></td>
                   <td>
-                    <form method="POST" class="table-actions" onsubmit="return confirmDelete('Delete this record?')">
+                    <form method="POST" style="display:inline" onsubmit="return confirmDelete('Delete this record?')">
                       <input type="hidden" name="action" value="delete">
                       <input type="hidden" name="record_id" value="<?= $r['id'] ?>">
-                      <button type="submit" class="btn btn-icon danger"><i class="fas fa-trash"></i></button>
+                      <button type="submit" class="btn btn-icon" style="color:var(--danger)"><i class="fas fa-trash"></i></button>
                     </form>
                   </td>
                 </tr>
@@ -236,11 +236,11 @@ $totalSessions = $pdo->query("SELECT COUNT(*) FROM calories WHERE workout_date =
             </select>
           </div>
           <div class="form-group">
-            <label>Calories Burnt (kcal) <small class="calc-note">Auto-calculated</small></label>
-            <input type="number" name="calories_burnt" id="cal_calories" class="form-control calc-input" min="1" step="0.01" required>
+            <label>Calories Burnt (kcal) <small style="color:var(--primary)">⚡ Auto-calculated</small></label>
+            <input type="number" name="calories_burnt" id="cal_calories" class="form-control" min="1" step="0.01" required style="font-weight:700;color:var(--primary)">
           </div>
         </div>
-        <div id="cal_breakdown" class="alert alert-info calc-breakdown">
+        <div id="cal_breakdown" class="alert alert-info" style="display:none;font-size:0.85rem">
           <i class="fas fa-calculator"></i> <span id="cal_formula"></span>
         </div>
         <div class="form-row">
@@ -290,11 +290,11 @@ function calculateCalories() {
 
   if (activity && duration > 0 && MET_VALUES[activity]) {
     const met = MET_VALUES[activity][intensity] || 5.0;
-    // Formula: Calories = MET x weight(kg) x duration(hours)
+    // Formula: Calories = MET × weight(kg) × duration(hours)
     const calories = (met * weight * (duration / 60)).toFixed(0);
     caloriesField.value = calories;
     breakdown.style.display = 'flex';
-    formula.textContent = `MET ${met} x ${weight}kg x ${duration}min / 60 = ${calories} kcal`;
+    formula.textContent = `MET ${met} × ${weight}kg × ${duration}min ÷ 60 = ${calories} kcal`;
   } else {
     breakdown.style.display = 'none';
   }
@@ -309,4 +309,3 @@ function calculateCalories() {
 </script>
 </body>
 </html>
-

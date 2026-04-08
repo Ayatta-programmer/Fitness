@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../auth/auth_check.php';
 checkAuth(['member']);
 
@@ -44,7 +44,7 @@ foreach ($records as $r) {
       </div>
     </div>
 
-    <div class="stats-grid cols-2">
+    <div class="stats-grid" style="grid-template-columns: repeat(2,1fr)">
       <div class="stat-card">
         <div class="stat-header">
           <div><div class="stat-value"><?= $totalDays ?></div><div class="stat-label">Days This Month</div></div>
@@ -61,8 +61,8 @@ foreach ($records as $r) {
 
     <div class="card mb-2">
       <div class="card-body">
-        <form method="GET" class="filter-form">
-          <div class="form-group filter-field">
+        <form method="GET" style="display:flex;gap:1rem;align-items:flex-end">
+          <div class="form-group" style="margin:0">
             <label>Month</label>
             <input type="month" name="month" class="form-control" value="<?= $filterMonth ?>">
           </div>
@@ -78,10 +78,10 @@ foreach ($records as $r) {
           <thead><tr><th>Date</th><th>Check In</th><th>Check Out</th><th>Duration</th><th>Status</th></tr></thead>
           <tbody>
             <?php if (empty($records)): ?>
-              <tr><td colspan="5" class="text-center empty-value" style="padding:2rem">No records this month</td></tr>
+              <tr><td colspan="5" class="text-center" style="padding:2rem;color:var(--gray-500)">No records this month</td></tr>
             <?php else: ?>
               <?php foreach ($records as $r):
-                $dur = ' - ';
+                $dur = '—';
                 if ($r['check_out']) {
                     $d = strtotime($r['check_out']) - strtotime($r['check_in']);
                     $dur = floor($d/3600).'h '.floor(($d%3600)/60).'m';
@@ -90,7 +90,7 @@ foreach ($records as $r) {
                 <tr>
                   <td><?= date('M j, Y (D)', strtotime($r['check_in'])) ?></td>
                   <td><?= date('g:i A', strtotime($r['check_in'])) ?></td>
-                  <td><?= $r['check_out'] ? date('g:i A', strtotime($r['check_out'])) : '<span class="badge badge-warning"> - </span>' ?></td>
+                  <td><?= $r['check_out'] ? date('g:i A', strtotime($r['check_out'])) : '<span class="badge badge-warning">—</span>' ?></td>
                   <td><?= $dur ?></td>
                   <td><span class="badge badge-success"><?= ucfirst($r['status']) ?></span></td>
                 </tr>
@@ -106,4 +106,3 @@ foreach ($records as $r) {
 <script src="../js/main.js"></script>
 </body>
 </html>
-
