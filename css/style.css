@@ -2735,3 +2735,246 @@ select.form-control {
   .contact-form-wrap { padding: var(--space-xl); }
   .hours-item { flex-direction: column; gap: var(--space-xs); }
 }
+
+/* ---------- RESPONSIVE HARDENING ---------- */
+.container,
+.main-content,
+.card,
+.card-body,
+.card-header,
+.chart-container,
+.contact-layout > *,
+.faq-question,
+.auth-card,
+.modal,
+.search-bar,
+.search-input,
+.main-header > div,
+.step-card,
+.feature-detail-content {
+  min-width: 0;
+}
+
+iframe,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+.main-header,
+.card-header,
+.form-footer,
+.search-bar,
+.hero-buttons,
+.cta-buttons {
+  flex-wrap: wrap;
+}
+
+.main-header > :last-child,
+.card-header > :last-child {
+  max-width: 100%;
+}
+
+.search-bar {
+  row-gap: var(--space-sm);
+}
+
+.search-input,
+.search-bar .form-control,
+.card-header .search-input {
+  width: 100%;
+  max-width: 100%;
+}
+
+.search-input input {
+  min-width: 0;
+  width: 100%;
+}
+
+.card,
+.stat-card,
+.feature-card,
+.why-card,
+.team-card,
+.contact-info-card,
+.hours-card,
+.support-card,
+.about-stat-item,
+.mv-card,
+.feature-overview-card {
+  overflow: hidden;
+}
+
+.data-table th,
+.data-table td,
+.sidebar-link,
+.hours-item,
+.support-link,
+.contact-link,
+.faq-question,
+.feature-checklist li,
+.section-subtitle,
+.hero p,
+.about-text p,
+.feature-card p,
+.contact-info-card p,
+.support-card p {
+  overflow-wrap: anywhere;
+}
+
+.chart-container {
+  position: relative;
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.page-hero-content,
+.hero-content,
+.cta-content {
+  width: 100%;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+}
+
+.section-title {
+  font-size: clamp(1.9rem, 4vw, 2.5rem);
+}
+
+.cta-content h2,
+.about-text h2,
+.page-hero-content h1 {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1360px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .charts-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1100px) {
+  .contact-info-grid,
+  .team-grid,
+  .features-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-layout,
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .main-header {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-stats {
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+  }
+
+  .feature-detail-row,
+  .contact-layout,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .main-header {
+    gap: var(--space-md);
+  }
+
+  .card-header .btn,
+  .card-header .search-bar,
+  .card-header .search-input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 var(--space-md);
+  }
+
+  .auth-page {
+    padding: var(--space-md);
+    align-items: stretch;
+  }
+
+  .auth-card {
+    padding: var(--space-xl);
+  }
+
+  .form-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .contact-info-grid,
+  .team-grid,
+  .features-grid,
+  .about-stats-grid,
+  .why-grid,
+  .feature-overview-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .step-wizard {
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .step {
+    width: calc(50% - 0.5rem);
+    justify-content: center;
+  }
+
+  .main-header > div:first-child {
+    width: 100%;
+  }
+
+  .search-bar {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+
+  .chart-container {
+    padding: var(--space-sm);
+  }
+}
+
+@media (max-width: 380px) {
+  .step {
+    width: 100%;
+  }
+
+  .hero-badge,
+  .badge {
+    max-width: 100%;
+  }
+
+  .btn,
+  .btn-lg {
+    width: 100%;
+  }
+}
