@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../auth/auth_check.php';
 checkAuth(['member']);
 
@@ -35,57 +35,6 @@ $plans = [
   <title>Plans & Pricing - <?= APP_NAME ?></title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    .plans-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 1.5rem; }
-    .plan-card {
-      background: var(--dark-700);
-      border-radius: 12px;
-      padding: 2rem;
-      border: 1px solid var(--dark-500);
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: flex;
-      flex-direction: column;
-    }
-    .plan-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-    .plan-card.current { border: 2px solid var(--primary); }
-    .plan-badge { position: absolute; top: 1rem; right: -2rem; background: var(--primary); color: #fff; padding: 0.25rem 3rem; transform: rotate(45deg); font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-    .plan-header { text-align: center; margin-bottom: 2rem; position: relative; z-index: 1; }
-    .plan-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--gray-200); }
-    .plan-price { font-size: 2.5rem; font-weight: 800; color: #fff; display: flex; align-items: baseline; justify-content: center; gap: 0.25rem; }
-    .plan-price sub { font-size: 1rem; color: var(--gray-400); font-weight: 500; }
-    .plan-features { list-style: none; padding: 0; margin: 0 0 2rem 0; flex-grow: 1; }
-    .plan-features li { padding: 0.75rem 0; color: var(--gray-300); border-bottom: 1px dashed var(--dark-500); display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; }
-    .plan-features li:last-child { border-bottom: none; }
-    .plan-features li i { color: var(--success); font-size: 1.1rem; }
-    
-    /* M-Pesa Styles Inherited from Billing */
-    .mpesa-btn { background: linear-gradient(135deg, #4CAF50, #2E7D32); border: none; color: #fff; font-weight: 700; width: 100%; }
-    .mpesa-btn:hover { background: linear-gradient(135deg, #43A047, #1B5E20); transform: translateY(-1px); }
-    .payment-step { text-align: center; padding: 1.5rem; }
-    .payment-step h3 { margin-bottom: 0.5rem; }
-    .payment-step p { color: var(--gray-400); font-size: 0.9rem; }
-    .phone-input-group { display: flex; gap: 0; max-width: 320px; margin: 1rem auto; }
-    .phone-prefix { background: var(--dark-700); border: 1px solid var(--dark-500); border-right: none; border-radius: 8px 0 0 8px; padding: 0.75rem 1rem; color: var(--gray-300); font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
-    .phone-input-group input { border-radius: 0 8px 8px 0; flex: 1; }
-    .pin-prompt { background: linear-gradient(135deg, #1a472a, #0d2818); border-radius: 20px; padding: 2rem; max-width: 280px; margin: 1rem auto; border: 1px solid #2E7D32; }
-    .pin-prompt h4 { color: #4CAF50; text-align: center; margin-bottom: 1rem; font-size: 0.95rem; }
-    .pin-dots { display: flex; justify-content: center; gap: 12px; margin: 1.5rem 0; }
-    .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #4CAF50; background: transparent; }
-    .pin-dot.filled { background: #4CAF50; }
-    .pin-prompt-text { color: #81C784; text-align: center; font-size: 0.8rem; }
-    .receipt-card { background: var(--dark-700); border-radius: 12px; padding: 1.5rem; max-width: 360px; margin: 1rem auto; border: 1px solid var(--dark-500); }
-    .receipt-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed var(--dark-500); font-size: 0.9rem; }
-    .receipt-row:last-child { border: none; }
-    .receipt-row span:first-child { color: var(--gray-400); }
-    .receipt-row span:last-child { color: var(--gray-200); font-weight: 600; }
-    .success-check { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #4CAF50, #2E7D32); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem; }
-    .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes pinFill { 0% { background: transparent; } 100% { background: #4CAF50; } }
-    .pin-dot.animating { animation: pinFill 0.4s ease forwards; }
-  </style>
 </head>
 <body>
 
@@ -103,15 +52,15 @@ $plans = [
 
     <div class="plans-container">
       <?php foreach ($plans as $key => $plan): ?>
-        <div class="plan-card <?= $currentPlan === $key ? 'current' : '' ?>" style="border-top: 4px solid <?= $plan['color'] ?>">
+        <div class="plan-card <?= $currentPlan === $key ? 'current' : '' ?>" style="--plan-color: <?= $plan['color'] ?>">
           <?php if ($currentPlan === $key): ?>
             <div class="plan-badge">CURRENT</div>
           <?php endif; ?>
           
           <div class="plan-header">
-            <div class="plan-name" style="color: <?= $plan['color'] ?>"><?= $plan['name'] ?></div>
+            <div class="plan-name"><?= $plan['name'] ?></div>
             <div class="plan-price">
-              <sub style="color: <?= $plan['color'] ?>">KSh</sub>
+              <sub>KSh</sub>
               <?= number_format($plan['price']) ?>
               <sub>/mo</sub>
             </div>
@@ -119,13 +68,13 @@ $plans = [
           
           <ul class="plan-features">
             <?php foreach ($plan['features'] as $feature): ?>
-              <li><i class="fas fa-check-circle" style="color: <?= $plan['color'] ?>"></i> <?= $feature ?></li>
+              <li><i class="fas fa-check-circle"></i> <?= $feature ?></li>
             <?php endforeach; ?>
           </ul>
           
           <div class="plan-action mt-auto">
             <?php if ($currentPlan === $key): ?>
-              <button class="btn btn-outline" style="width: 100%; border-color: <?= $plan['color'] ?>; color: <?= $plan['color'] ?>" onclick="startPlanPurchase('<?= $key ?>', <?= $plan['price'] ?>, 'Monthly Membership - <?= $plan['name'] ?>')">
+              <button class="btn btn-outline plan-outline" style="--plan-color: <?= $plan['color'] ?>" onclick="startPlanPurchase('<?= $key ?>', <?= $plan['price'] ?>, 'Monthly Membership - <?= $plan['name'] ?>')">
                 Renew Plan
               </button>
             <?php else: ?>
@@ -142,34 +91,34 @@ $plans = [
 
 <!-- M-Pesa Payment Modal -->
 <div class="modal-overlay" id="mpesaModal">
-  <div class="modal" style="max-width:440px">
-    <div class="modal-header" style="border-bottom-color:#2E7D32">
-      <h3 style="color:#4CAF50"><i class="fas fa-mobile-alt"></i> M-Pesa Payment</h3>
+  <div class="modal payment-modal">
+    <div class="modal-header">
+      <h3 class="payment-modal-title"><i class="fas fa-mobile-alt"></i> M-Pesa Payment</h3>
       <button class="modal-close" onclick="closeMpesa()">&times;</button>
     </div>
-    <div class="modal-body" style="padding:0">
+    <div class="modal-body">
 
       <!-- Step 1: Enter Phone Number -->
       <div id="mpesa-step1" class="payment-step">
-        <div style="background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff;padding:1rem;border-radius:8px;margin-bottom:1.5rem">
-          <div style="font-size:0.8rem;opacity:0.8">Amount to Pay</div>
-          <div id="mpesa-amount" style="font-size:1.8rem;font-weight:800"></div>
-          <div id="mpesa-desc" style="font-size:0.85rem;opacity:0.9;margin-top:0.25rem"></div>
+        <div class="payment-highlight">
+          <div class="eyebrow">Amount to Pay</div>
+          <div id="mpesa-amount" class="amount"></div>
+          <div id="mpesa-desc" class="description"></div>
         </div>
 
         <h3>Enter M-Pesa Phone Number</h3>
         <p>Enter the Safaricom number to receive the STK Push prompt</p>
 
         <div class="phone-input-group">
-          <span class="phone-prefix">🇰🇪 +254</span>
+          <span class="phone-prefix">KE +254</span>
           <input type="tel" id="mpesa-phone" class="form-control" placeholder="7XX XXX XXX" maxlength="10">
         </div>
 
-        <p style="font-size:0.8rem;color:var(--gray-500);margin-top:0.5rem">
+        <p class="payment-security-note">
           <i class="fas fa-lock"></i> Secured by Safaricom M-Pesa
         </p>
 
-        <button class="btn mpesa-btn" style="width:100%;padding:0.9rem;font-size:1rem;margin-top:1rem" onclick="initiateMpesa()">
+        <button class="btn mpesa-btn payment-btn" onclick="initiateMpesa()">
           <i class="fas fa-paper-plane"></i> Send STK Push
         </button>
       </div>
@@ -362,3 +311,4 @@ function confirmMpesa() {
 </script>
 </body>
 </html>
+

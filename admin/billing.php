@@ -143,12 +143,12 @@ $invoiceCount = $pdo->query("SELECT COUNT(*) FROM invoices")->fetchColumn();
     <!-- Filter -->
     <div class="card mb-2">
       <div class="card-body">
-        <form method="GET" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
-          <div class="form-group" style="margin:0;flex:1;min-width:200px">
+        <form method="GET" class="filter-form">
+          <div class="form-group filter-field grow">
             <label>Member</label>
             <input type="text" name="member" class="form-control" placeholder="Search by name..." value="<?= htmlspecialchars($filterMember) ?>">
           </div>
-          <div class="form-group" style="margin:0">
+          <div class="form-group filter-field">
             <label>Status</label>
             <select name="status" class="form-control">
               <option value="">All</option>
@@ -186,7 +186,7 @@ $invoiceCount = $pdo->query("SELECT COUNT(*) FROM invoices")->fetchColumn();
           </thead>
           <tbody>
             <?php if (empty($invoices)): ?>
-              <tr><td colspan="9" class="text-center" style="padding:2rem;color:var(--gray-500)">No invoices found</td></tr>
+              <tr><td colspan="9" class="text-center empty-value" style="padding:2rem">No invoices found</td></tr>
             <?php else: ?>
               <?php foreach ($invoices as $inv): ?>
                 <tr>
@@ -205,26 +205,26 @@ $invoiceCount = $pdo->query("SELECT COUNT(*) FROM invoices")->fetchColumn();
                   <td>
                     <div class="d-flex gap-1">
                       <?php if ($inv['status'] === 'pending' || $inv['status'] === 'overdue'): ?>
-                        <form method="POST" style="display:inline">
+                        <form method="POST" class="table-actions">
                           <input type="hidden" name="action" value="mark_paid">
                           <input type="hidden" name="invoice_id" value="<?= $inv['id'] ?>">
                           <input type="hidden" name="payment_method" value="Cash">
-                          <button type="submit" class="btn btn-icon" style="color:var(--success)" title="Mark Paid">
+                          <button type="submit" class="btn btn-icon success" title="Mark Paid">
                             <i class="fas fa-check"></i>
                           </button>
                         </form>
-                        <form method="POST" style="display:inline">
+                        <form method="POST" class="table-actions">
                           <input type="hidden" name="action" value="cancel">
                           <input type="hidden" name="invoice_id" value="<?= $inv['id'] ?>">
-                          <button type="submit" class="btn btn-icon" style="color:var(--warning)" title="Cancel">
+                          <button type="submit" class="btn btn-icon warning" title="Cancel">
                             <i class="fas fa-ban"></i>
                           </button>
                         </form>
                       <?php endif; ?>
-                      <form method="POST" style="display:inline" onsubmit="return confirmDelete('Delete this invoice?')">
+                      <form method="POST" class="table-actions" onsubmit="return confirmDelete('Delete this invoice?')">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="invoice_id" value="<?= $inv['id'] ?>">
-                        <button type="submit" class="btn btn-icon" style="color:var(--danger)" title="Delete">
+                        <button type="submit" class="btn btn-icon danger" title="Delete">
                           <i class="fas fa-trash"></i>
                         </button>
                       </form>

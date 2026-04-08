@@ -77,7 +77,7 @@ $allMembers = $pdo->query("SELECT id, full_name FROM users WHERE role = 'member'
           <thead><tr><th>Member</th><th>Check In</th><th>Check Out</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody>
             <?php if (empty($records)): ?>
-              <tr><td colspan="5" class="text-center" style="padding:2rem;color:var(--gray-500)">No records today</td></tr>
+              <tr><td colspan="5" class="text-center empty-value" style="padding:2rem">No records today</td></tr>
             <?php else: ?>
               <?php foreach ($records as $r): ?>
                 <tr>
@@ -87,13 +87,13 @@ $allMembers = $pdo->query("SELECT id, full_name FROM users WHERE role = 'member'
                   <td><span class="badge badge-success"><?= ucfirst($r['status']) ?></span></td>
                   <td>
                     <?php if (!$r['check_out']): ?>
-                      <form method="POST" style="display:inline">
+                      <form method="POST" class="table-actions">
                         <input type="hidden" name="action" value="checkout">
                         <input type="hidden" name="att_id" value="<?= $r['id'] ?>">
                         <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-sign-out-alt"></i> Check Out</button>
                       </form>
                     <?php else: ?>
-                      <span style="color:var(--gray-500)">Completed</span>
+                      <span class="status-text muted">Completed</span>
                     <?php endif; ?>
                   </td>
                 </tr>

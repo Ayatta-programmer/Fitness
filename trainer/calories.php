@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../auth/auth_check.php';
 checkAuth(['trainer']);
 
@@ -70,14 +70,14 @@ $allMembers = $pdo->query("SELECT id, full_name FROM users WHERE role = 'member'
           <thead><tr><th>Member</th><th>Activity</th><th>Duration</th><th>Calories</th><th>Intensity</th><th>Date</th></tr></thead>
           <tbody>
             <?php if (empty($records)): ?>
-              <tr><td colspan="6" class="text-center" style="padding:2rem;color:var(--gray-500)">No records yet</td></tr>
+            <tr><td colspan="6" class="text-center empty-value" style="padding:2rem">No records yet</td></tr>
             <?php else: ?>
               <?php foreach ($records as $r): ?>
                 <tr>
                   <td><?= htmlspecialchars($r['full_name']) ?></td>
                   <td><?= htmlspecialchars($r['activity']) ?></td>
                   <td><?= $r['duration_minutes'] ?> min</td>
-                  <td><strong style="color:var(--primary)"><?= number_format($r['calories_burnt']) ?> kcal</strong></td>
+                  <td><strong class="value-strong"><?= number_format($r['calories_burnt']) ?> kcal</strong></td>
                   <td><span class="badge badge-<?= $r['intensity']==='high'?'danger':($r['intensity']==='medium'?'warning':'info') ?>"><?= ucfirst($r['intensity']) ?></span></td>
                   <td><?= date('M j, Y', strtotime($r['workout_date'])) ?></td>
                 </tr>
@@ -128,11 +128,11 @@ $allMembers = $pdo->query("SELECT id, full_name FROM users WHERE role = 'member'
             </select>
           </div>
           <div class="form-group">
-            <label>Calories (kcal) <small style="color:var(--primary)">⚡ Auto</small></label>
-            <input type="number" name="calories_burnt" id="t_cal_calories" class="form-control" min="1" step="0.01" required style="font-weight:700;color:var(--primary)">
+            <label>Calories (kcal) <small class="calc-note">Auto</small></label>
+            <input type="number" name="calories_burnt" id="t_cal_calories" class="form-control calc-input" min="1" step="0.01" required>
           </div>
         </div>
-        <div id="t_cal_breakdown" class="alert alert-info" style="display:none;font-size:0.85rem">
+        <div id="t_cal_breakdown" class="alert alert-info calc-breakdown">
           <i class="fas fa-calculator"></i> <span id="t_cal_formula"></span>
         </div>
         <div class="form-row">
@@ -174,7 +174,7 @@ function calcTrainerCalories() {
     const calories = (met * weight * (duration / 60)).toFixed(0);
     document.getElementById('t_cal_calories').value = calories;
     document.getElementById('t_cal_breakdown').style.display = 'flex';
-    document.getElementById('t_cal_formula').textContent = `MET ${met} × ${weight}kg × ${duration}min ÷ 60 = ${calories} kcal`;
+    document.getElementById('t_cal_formula').textContent = `MET ${met} x ${weight}kg x ${duration}min / 60 = ${calories} kcal`;
   } else {
     document.getElementById('t_cal_breakdown').style.display = 'none';
   }
@@ -187,4 +187,5 @@ function calcTrainerCalories() {
 </script>
 </body>
 </html>
+
 

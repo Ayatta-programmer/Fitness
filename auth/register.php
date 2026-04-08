@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
 <div class="auth-page">
-  <div class="auth-card" style="max-width: 540px">
+  <div class="auth-card auth-card-wide">
     <div class="auth-header">
       <a href="../index.html" class="auth-logo">FP</a>
       <h2>Create Account</h2>
@@ -101,13 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form method="POST" action="" id="registerForm">
       <div class="form-group">
-        <label for="full_name">Full Name <span style="color:var(--danger)">*</span></label>
+        <label for="full_name">Full Name <span class="required-mark">*</span></label>
         <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Enter your full name" value="<?= htmlspecialchars($formData['full_name']) ?>" required>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="email">Email Address <span style="color:var(--danger)">*</span></label>
+          <label for="email">Email Address <span class="required-mark">*</span></label>
           <input type="email" id="email" name="email" class="form-control" placeholder="your@email.com" value="<?= htmlspecialchars($formData['email']) ?>" required>
         </div>
         <div class="form-group">
@@ -118,17 +118,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <div class="form-row">
         <div class="form-group">
-          <label for="password">Password <span style="color:var(--danger)">*</span></label>
+          <label for="password">Password <span class="required-mark">*</span></label>
           <input type="password" id="password" name="password" class="form-control" placeholder="Min. 6 characters" required>
         </div>
         <div class="form-group">
-          <label for="confirm_password">Confirm Password <span style="color:var(--danger)">*</span></label>
+          <label for="confirm_password">Confirm Password <span class="required-mark">*</span></label>
           <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Repeat password" required>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="role">Register As <span style="color:var(--danger)">*</span></label>
+        <label for="role">Register As <span class="required-mark">*</span></label>
         <select id="role" name="role" class="form-control" required>
           <option value="member" <?= $formData['role'] === 'member' ? 'selected' : '' ?>>Member</option>
           <option value="trainer" <?= $formData['role'] === 'trainer' ? 'selected' : '' ?>>Trainer</option>
@@ -137,12 +137,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
 
       <div class="form-group" id="inviteCodeGroup" style="display:none">
-        <label for="invite_code">Admin Invite Code <span style="color:var(--danger)">*</span></label>
+        <label for="invite_code">Admin Invite Code <span class="required-mark">*</span></label>
         <input type="text" id="invite_code" name="invite_code" class="form-control" placeholder="Enter admin invite code">
       </div>
 
       <div class="form-group">
-        <label for="security_question">Security Question <span style="color:var(--danger)">*</span></label>
+        <label for="security_question">Security Question <span class="required-mark">*</span></label>
         <select id="security_question" name="security_question" class="form-control" required>
           <option value="">Select a security question</option>
           <?php foreach ($securityQuestions as $q): ?>
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
 
       <div class="form-group">
-        <label for="security_answer">Security Answer <span style="color:var(--danger)">*</span></label>
+        <label for="security_answer">Security Answer <span class="required-mark">*</span></label>
         <input type="text" id="security_answer" name="security_answer" class="form-control" placeholder="Your answer (used for password reset)" required>
       </div>
 

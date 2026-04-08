@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../auth/auth_check.php';
 checkAuth(['trainer']);
 
@@ -39,7 +39,7 @@ $allMembers = $pdo->query("SELECT id, full_name, email, phone, status, membershi
           </thead>
           <tbody>
             <?php if (empty($allMembers)): ?>
-              <tr><td colspan="5" class="text-center" style="padding:2rem;color:var(--gray-500)">No members found</td></tr>
+              <tr><td colspan="5" class="text-center empty-value" style="padding:2rem">No members found</td></tr>
             <?php else: ?>
               <?php foreach ($allMembers as $m): ?>
                 <?php $ini = strtoupper(substr($m['full_name'],0,1)); ?>
@@ -51,7 +51,7 @@ $allMembers = $pdo->query("SELECT id, full_name, email, phone, status, membershi
                     </div>
                   </td>
                   <td><?= htmlspecialchars($m['email']) ?></td>
-                  <td><?= htmlspecialchars($m['phone'] ?: '—') ?></td>
+                  <td><?= htmlspecialchars($m['phone'] ?: ' - ') ?></td>
                   <td><span class="badge badge-info"><?= ucfirst($m['membership_plan'] ?: 'Basic') ?></span></td>
                   <td><?= date('M j, Y', strtotime($m['joined_date'])) ?></td>
                 </tr>
@@ -67,3 +67,4 @@ $allMembers = $pdo->query("SELECT id, full_name, email, phone, status, membershi
 <script src="../js/main.js"></script>
 </body>
 </html>
+

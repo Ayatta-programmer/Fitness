@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../auth/auth_check.php';
 checkAuth(['member']);
 
@@ -59,7 +59,7 @@ $recentCalories = $recentCal->fetchAll();
         <h1>My Dashboard</h1>
         <p>Welcome back, <?= htmlspecialchars($_SESSION['user_name']) ?>!</p>
       </div>
-      <span style="color:var(--gray-400);font-size:0.85rem"><i class="fas fa-calendar"></i> <?= date('l, F j, Y') ?></span>
+      <div class="header-meta"><i class="fas fa-calendar"></i> <?= date('l, F j, Y') ?></div>
     </div>
 
     <div class="stats-grid">
@@ -67,7 +67,7 @@ $recentCalories = $recentCal->fetchAll();
         <div class="stat-header">
           <div>
             <div class="stat-value"><?= $streak ?></div>
-            <div class="stat-label">Day Streak 🔥</div>
+            <div class="stat-label">Day Streak</div>
           </div>
           <div class="stat-icon orange"><i class="fas fa-fire"></i></div>
         </div>
@@ -112,13 +112,13 @@ $recentCalories = $recentCal->fetchAll();
             <thead><tr><th>Date</th><th>Check In</th><th>Check Out</th><th>Status</th></tr></thead>
             <tbody>
               <?php if (empty($recentAttendance)): ?>
-                <tr><td colspan="4" class="text-center" style="padding:2rem;color:var(--gray-500)">No records yet</td></tr>
+                <tr><td colspan="4" class="text-center empty-value" style="padding:2rem">No records yet</td></tr>
               <?php else: ?>
                 <?php foreach ($recentAttendance as $a): ?>
                   <tr>
                     <td><?= date('M j, Y', strtotime($a['check_in'])) ?></td>
                     <td><?= date('g:i A', strtotime($a['check_in'])) ?></td>
-                    <td><?= $a['check_out'] ? date('g:i A', strtotime($a['check_out'])) : '<span class="badge badge-warning">—</span>' ?></td>
+                    <td><?= $a['check_out'] ? date('g:i A', strtotime($a['check_out'])) : '<span class="badge badge-warning"> - </span>' ?></td>
                     <td><span class="badge badge-success"><?= ucfirst($a['status']) ?></span></td>
                   </tr>
                 <?php endforeach; ?>
@@ -138,13 +138,13 @@ $recentCalories = $recentCal->fetchAll();
             <thead><tr><th>Activity</th><th>Duration</th><th>Calories</th><th>Date</th></tr></thead>
             <tbody>
               <?php if (empty($recentCalories)): ?>
-                <tr><td colspan="4" class="text-center" style="padding:2rem;color:var(--gray-500)">No records yet</td></tr>
+                <tr><td colspan="4" class="text-center empty-value" style="padding:2rem">No records yet</td></tr>
               <?php else: ?>
                 <?php foreach ($recentCalories as $c): ?>
                   <tr>
                     <td><?= htmlspecialchars($c['activity']) ?></td>
                     <td><?= $c['duration_minutes'] ?> min</td>
-                    <td><strong style="color:var(--primary)"><?= number_format($c['calories_burnt']) ?> kcal</strong></td>
+                    <td><strong class="value-strong"><?= number_format($c['calories_burnt']) ?> kcal</strong></td>
                     <td><?= date('M j', strtotime($c['workout_date'])) ?></td>
                   </tr>
                 <?php endforeach; ?>
@@ -196,3 +196,4 @@ new Chart(document.getElementById('weeklyCalChart'), {
 </script>
 </body>
 </html>
+

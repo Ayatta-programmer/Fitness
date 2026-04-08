@@ -21,21 +21,52 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
   const navAuth = document.getElementById('navAuth');
+  const navbarElement = document.getElementById('navbar');
+
+  const closeMobileNav = () => {
+    if (!hamburger) return;
+    hamburger.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    if (navLinks) navLinks.classList.remove('active');
+    if (navAuth) navAuth.classList.remove('active');
+    document.body.classList.remove('nav-open');
+  };
 
   if (hamburger) {
+    hamburger.setAttribute('aria-expanded', 'false');
+
     hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      if (navLinks) navLinks.classList.toggle('active');
-      if (navAuth) navAuth.classList.toggle('active');
+      const willOpen = !hamburger.classList.contains('active');
+      hamburger.classList.toggle('active', willOpen);
+      hamburger.setAttribute('aria-expanded', String(willOpen));
+      if (navLinks) navLinks.classList.toggle('active', willOpen);
+      if (navAuth) navAuth.classList.toggle('active', willOpen);
+      document.body.classList.toggle('nav-open', willOpen && window.innerWidth <= 768);
     });
 
     // Close menu on link click
-    document.querySelectorAll('.nav-links a').forEach(link => {
+    document.querySelectorAll('.nav-links a, .nav-auth a').forEach(link => {
       link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        if (navLinks) navLinks.classList.remove('active');
-        if (navAuth) navAuth.classList.remove('active');
+        closeMobileNav();
       });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth > 768 || !hamburger.classList.contains('active')) return;
+      const clickedInsideNav = navbarElement && navbarElement.contains(e.target);
+      if (!clickedInsideNav) closeMobileNav();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMobileNav();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        closeMobileNav();
+      } else if (hamburger.classList.contains('active')) {
+        document.body.classList.add('nav-open');
+      }
     });
   }
 

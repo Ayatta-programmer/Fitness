@@ -98,17 +98,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <div class="form-group">
         <label for="password">Password</label>
-        <div style="position:relative">
+        <div class="password-field">
           <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
-          <button type="button" class="toggle-password" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--gray-500);cursor:pointer">
+          <button type="button" class="toggle-password" aria-label="Toggle password visibility">
             <i class="fas fa-eye"></i>
           </button>
         </div>
       </div>
 
       <div class="form-footer">
-        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--gray-400)">
-          <input type="checkbox" name="remember" style="accent-color:var(--primary)"> Remember me
+        <label class="checkbox-inline">
+          <input type="checkbox" name="remember"> Remember me
         </label>
         <a href="forgot_password.php">Forgot Password?</a>
       </div>

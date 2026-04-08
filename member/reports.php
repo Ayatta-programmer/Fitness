@@ -76,13 +76,13 @@ $activityBreakdown = $actData->fetchAll();
           <thead><tr><th>Activity</th><th>Sessions</th><th>Total Calories</th></tr></thead>
           <tbody>
             <?php if (empty($activityBreakdown)): ?>
-              <tr><td colspan="3" class="text-center" style="padding:2rem;color:var(--gray-500)">No data yet</td></tr>
+              <tr><td colspan="3" class="text-center empty-value" style="padding:2rem">No data yet</td></tr>
             <?php else: ?>
               <?php foreach ($activityBreakdown as $a): ?>
                 <tr>
                   <td><?= htmlspecialchars($a['activity']) ?></td>
                   <td><?= $a['sessions'] ?></td>
-                  <td><strong style="color:var(--primary)"><?= number_format($a['total']) ?> kcal</strong></td>
+                  <td><strong class="value-strong"><?= number_format($a['total']) ?> kcal</strong></td>
                 </tr>
               <?php endforeach; ?>
             <?php endif; ?>
