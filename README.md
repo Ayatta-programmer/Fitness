@@ -630,20 +630,11 @@ sudo lsof -i :8000
 ## 🗺️ Roadmap
 
 ### Version 1.1 (Q2 2026)
-- [ ] Mobile app (iOS & Android)
-- [ ] WhatsApp integration for notifications
+- [ ] web-based system
 - [ ] Advanced analytics dashboard
 - [ ] Multi-language support
 
-### Version 1.2 (Q3 2026)
-- [ ] Nutrition planning module
-- [ ] Video workout tutorials
-- [ ] AI-powered fitness recommendations
-- [ ] Social community features
-
-### Version 2.0 (Q4 2026)
-- [ ] Blockchain-based payments
-- [ ] VR fitness experiences
+### Version 2.0 (q2 2026)
 - [ ] Integration with wearables
 - [ ] Machine learning analytics
 
@@ -653,7 +644,7 @@ sudo lsof -i :8000
 
 ### Get Help
 - 📧 **Email**: info@fitpulse.com
-- 📱 **Phone**: +254 700 000000
+- 📱 **Phone**: +254 711191232
 - 📍 **Location**: Nairobi, Kenya
 - 💬 **Discord**: [Join our community](https://discord.gg/fitpulse)
 
@@ -698,8 +689,8 @@ If you found this project helpful, please consider giving it a ⭐ star on GitHu
 
 ## 🙏 Acknowledgments
 
-- Built with ❤️ by the FitPulse team
-- Special thanks to all contributors
+- Built with love by Ayata Horace
+- Special thanks to my project adviser Mr Mwenda Gichuru
 - Inspired by modern fitness management needs
 
 ---
